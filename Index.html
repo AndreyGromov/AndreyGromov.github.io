@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="\static\css\Style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="script" href="Scripts.JS" defer>
+    <title>Site</title>
+</head>
+
+<body class="d-flex flex-column">
+    <header class="d-flex w-100 fixed-top">
+
+        <div class="menu-left" id="menu-left">
+            <div class="menu-item" id="mySidenavFirst"><a href="#">Теория</a></div>
+            <div class="menu-item"><a href="#">Примеры</a></div>
+            <div class="menu-item"><a href="#">Практика</a></div>
+            <div class="menu-item features"><a href="#">Фичи</a></div>
+        </div>
+        <div class="menu-right" id="menu-right">
+            <div class="search-box">
+                <input type="text" placeholder="Поиск">
+                <img src="img/поиск.png" alt="Поиск">
+            </div>
+            <div class="logo"><img src="img/логотип.png" alt="Логотип"></div>
+        </div>
+    </header>
+    
+
+    
+        <div id="MainBody" class="d-flex flex-row">
+
+            <div class="d-flex flex-row" id="sideBar">
+                <div class="d-flex flex-column">
+                    <label for="sidenav" id="mySidenav" class="start d-flex flex-column">
+                    
+                        <a href="#" id="mySidenavClose" class="d-flex justify-content-end" style="padding-right: 10px; padding-left: 10px;">&#x2715;</a>
+            
+                        <a href="#" id="firstThemeLink" class="p-2">theme 1</a>
+                        <a href="#" class="p-2">theme 2</a>
+                        <a href="#" class="p-2">theme 3</a>
+                        <a href="#" class="p-2">theme 4</a>
+                    </label>
+                </div>
+    
+                <div class="d-flex flex-column" id="firstThemes">
+                    <label for="sidenav" id="firstTheme" class="firstTheme start d-flex flex-column">
+                        <a href="#" class="firstTheme p-2">theme 1</a>
+                        <a href="#" class="firstTheme p-2">theme 2</a>
+                        <a href="#" class="firstTheme p-2">theme 3</a>
+                        <a href="#" class="firstTheme p-2">theme 4</a>
+                    </label>
+                </div>
+            </div>   
+
+            <div class="d-flex flex-column" id="ContentBody">
+                <section id="Section_Themes">
+                    <div id="MainText" class="border-black p-2 m-2">
+                        <p>
+                            
+                        </p>
+                    </div>
+                </section>
+                
+                <section id="Section_Exemples" class="d-flex flex-column align-self-center justify-content-center">
+                    <details>
+                        <summary>Пример</summary>
+                        <p>Скандинавская мифология — мифология древних скандинавов</p>
+                    </details>
+    
+                    <details>
+                        <summary>Пример</summary>
+                        <p>Скандинавская мифология — мифология древних скандинавов</p>
+                    </details>
+    
+                    <details>
+                        <summary>Пример</summary>
+                        <p>Скандинавская мифология — мифология древних скандинавов</p>
+                    </details>
+    
+                    <details>
+                        <summary>Пример</summary>
+                        <p>Скандинавская мифология — мифология древних скандинавов</p>
+                    </details>
+    
+                    <details>
+                        <summary>Пример</summary>
+                        <p>Скандинавская мифология — мифология древних скандинавов</p>
+                    </details>
+                </section>
+                
+                <section id="Section_Practice">
+                    <details>
+                        <summary>Практика</summary>
+                        <p>Скандинавская мифология — мифология древних скандинавов</p>
+                    </details>
+    
+                    <details>
+                        <summary>Практика</summary>
+                        <p>Скандинавская мифология — мифология древних скандинавов</p>
+                    </details>
+    
+                    <details>
+                        <summary>Практика</summary>
+                        <p>Скандинавская мифология — мифология древних скандинавов</p>
+                    </details>
+    
+                    <details>
+                        <summary>Практика</summary>
+                        <p>Скандинавская мифология — мифология древних скандинавов</p>
+                    </details>
+    
+                    <details>
+                        <summary>Практика</summary>
+                        <p>Скандинавская мифология — мифология древних скандинавов</p>
+                    </details>
+                </section>
+                
+                <section id="Section_Hacks"></section>
+            </div>
+            
+
+            
+        </div>
+
+    <footer class="fixed-bottom">
+        <div class="footer-content">
+            <a href="https://t.me/your_bot" style="color: #FFB347; font-weight: bold; text-decoration: none;">Telegram</a>
+        </div>
+    </footer>
+
+    <script src="js/lib/stats.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+        $(function(){ //для сохранения выделения пункта меню
+            $('.menu-item a').click(function(){
+                $('.menu-item a').removeClass('active'); 
+                $(this).addClass('active'); 
+            });
+        });
+
+        $(function(){ //для открытия боковой панели
+            $('#mySidenavFirst').click(function(){
+                var left = $(this).offset().left;
+                $('#mySidenav').offset({left: left + 0});
+                document.getElementById("mySidenav").style.width = "200px";
+            });
+        });
+        
+        $(function(){ //для закрытия боковой панели
+            $('#mySidenavClose').click(function(){
+                var left = $(this).offset().left;
+                $('#mySidenav').offset({left: left - 150});
+                document.getElementById("mySidenav").style.width = "0px";
+                
+                var left = $(this).offset().left;
+                $('#firstTheme').offset({left: left - 150});
+                document.getElementById("firstTheme").style.width = "0px";
+            });
+        });
+
+        // $(function(){ //для открытия боковой панели по наведению
+        //     $('#firstThemeLink').mouseover(function(){
+        //         var left = $('#mySidenavFirst').offset().left;
+        //         $('#firstTheme').offset({left: left + 90});
+        //         document.getElementById("firstTheme").style.width = "200px";
+        //     });
+        // });
+
+        // $(function(){ //для закрытия боковой панели по наведению
+        //     $('#firstThemes').mouseout(function(){
+        //         var left = $(this).offset().left;
+        //         $('#firstTheme').offset({left: left - 150});
+        //         document.getElementById("firstTheme").style.width = "0px";
+        //     });
+        // });
+
+        const sidebar = document.getElementById('firstTheme');
+        const openBtn = document.getElementById('firstThemeLink');
+
+        openBtn.addEventListener('mouseenter', () => 
+        {
+            sidebar.style.left = '0';
+            sidebar.style.width = "200px";
+        });
+
+        sidebar.addEventListener('mouseleave', () => 
+        {
+            sidebar.style.left = '-250px';
+            sidebar.style.width = "0px";
+        });
+    </script>
+</body>
+<script src="app.js"></script>
+</html>
+
+<!-- <script src="https://telegram.org/js/telegram-web-app.js"></script> -->
