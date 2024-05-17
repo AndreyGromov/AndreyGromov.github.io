@@ -53,3 +53,7 @@ function setProgress(e) {
 }
 progressContainer.addEventListener('click', setProgress)
 
+let tg = window.Telegram.WebApp;
+
+tg.expand();
+
