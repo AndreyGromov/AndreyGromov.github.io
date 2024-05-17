@@ -32,3 +32,24 @@ playBtn.addEventListener('click', () => {
     }
 })
 
+function updateProgress(e) {
+    const {duration, currentTime} = e.srcElement
+    const progressPercent = (currentTime / duration) * 100
+//    console.log(duration)
+//    console.log(currentTime)
+//    console.log(progressPercent)
+    progress.style.width = '${progressPercent}%'
+}
+audio.addEventListener('timeupdate', updateProgress)
+
+function setProgress(e) {
+    const width = this.clientWidth
+    const clickX = e.offsetX
+    const duration = audio.duration
+
+    audio.currentTime = (clickX / width) * duration
+    console.log(clickX)
+
+}
+progressContainer.addEventListener('click', setProgress)
+
