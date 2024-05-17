@@ -39,7 +39,7 @@
     margin-bottom: 20px;
 }
 .active {
-    animation: rotateAnimation 20s linear infinite;
+    animation: rotateAnimation 3s linear infinite;
 }
 .song {
     font-weight: bold;
@@ -62,7 +62,7 @@
     background: #2B3C5B;
     border-radius: 5px;
     height: 6px;
-    
+
 }
 .buttons {
     display: flex;
