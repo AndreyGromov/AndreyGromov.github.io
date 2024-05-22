@@ -42,7 +42,7 @@ def get_db():
 
 
 
-@app.route("/", methods=["POST","GET"])
+@app.route("/github.com/AndreyGromov/AndreyGromov.github.io", methods=["POST","GET"])
 def mus():
     topas = 'a'
 
