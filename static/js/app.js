@@ -1,3 +1,5 @@
+
+
 const player = document.querySelector('.player'),
         playBtn = document.querySelector('.play'),
         prevBtn = document.querySelector('.prev'),
@@ -35,9 +37,6 @@ playBtn.addEventListener('click', () => {
 function updateProgress(e) {
     const {duration, currentTime} = e.srcElement
     const progressPercent = (currentTime / duration) * 100
-//    console.log(duration)
-//    console.log(currentTime)
-//    console.log(progressPercent)
     progress.style.width = '${progressPercent}%'
 }
 audio.addEventListener('timeupdate', updateProgress)
@@ -52,6 +51,21 @@ function setProgress(e) {
 
 }
 progressContainer.addEventListener('click', setProgress)
+
+document.getElementById('thissong').addEventListener('click', function() {
+    document.getElementById('popup').style.display = 'block';
+});
+
+document.getElementById('closePopup').addEventListener('click', function() {
+    document.getElementById('popup').style.display = 'none';
+});
+
+window.addEventListener('click', function(event) {
+    var popup = document.getElementById('popup');
+    if (event.target == popup) {
+        popup.style.display = 'none';
+    }
+});
 
 let tg = window.Telegram.WebApp;
 
