@@ -10,28 +10,144 @@
     <link rel="stylesheet" href="/static/css/styles.css">
 </head>
 <body>
+
     <div class="wrapper">
         <div class="player">
-            <div class="title">Now Playing</div>
-            <div class="cover"><img class="cover_img" src="/static/img/maxresdefault.jpg" alt="Album Cover" class="cover_img"></div>
-            <div class="song">ฅ^•ﻌ•^ฅ</div>
-            <audio class="audio" src="../static/audio/Sektor_Gaza_-_Bomzh.mp3"></audio>
-            <div class="progress_container">
-                <div class="progress"></div>
-            </div>
-            <div class="buttons">
-                <div class="btn prev" ><img src="static/img/prev.svg" alt="btn"></div>
-                <div class="btn play" ><img class="img_src" src="static/img/play.svg" alt="btn"></div>
-                <div class="btn next" ><img src="static/img/next.svg" alt="btn"></div>
-            </div>
+            <ul class="song-list">
+               <li id="thissong" class="song-item">
+                <img src="/static/img/maxresdefault.jpg" alt="Song Cover">
+                <div class="song-info">
+                    <p class="song-title">Song Title</p>
+                    <p class="song-author">Author Name</p>
+                </div>
+                   <div class="song-options">
+                      <span></span>
+                      <span></span>
+                      <span></span>
+                   </div>
+               </li>
+               <li id="thissong2" class="song-item">
+                <img src="/static/img/maxresdefault.jpg" alt="Song Cover">
+                <div class="song-info">
+                    <p class="song-title">Song Title</p>
+                    <p class="song-author">Author Name</p>
+                </div>
+                   <div class="song-options">
+                      <span></span>
+                      <span></span>
+                      <span></span>
+                   </div>
+               </li>
+               <li id="thissong3" class="song-item">
+                <img src="/static/img/maxresdefault.jpg" alt="Song Cover">
+                <div class="song-info">
+                    <p class="song-title">Song Title</p>
+                    <p class="song-author">Author Name</p>
+                </div>
+                   <div class="song-options">
+                      <span></span>
+                      <span></span>
+                      <span></span>
+                   </div>
+               </li>
+               <li id="thissong4" class="song-item">
+                <img src="/static/img/maxresdefault.jpg" alt="Song Cover">
+                <div class="song-info">
+                    <p class="song-title">Song Title</p>
+                    <p class="song-author">Author Name</p>
+                </div>
+                   <div class="song-options">
+                      <span></span>
+                      <span></span>
+                      <span></span>
+                   </div>
+               </li>
+               <li id="thissong5" class="song-item">
+                <img src="/static/img/maxresdefault.jpg" alt="Song Cover">
+                <div class="song-info">
+                    <p class="song-title">Song Title</p>
+                    <p class="song-author">Author Name</p>
+                </div>
+                   <div class="song-options">
+                      <span></span>
+                      <span></span>
+                      <span></span>
+                   </div>
+               </li>
+               <li id="thissong9" class="song-item">
+                <img src="/static/img/maxresdefault.jpg" alt="Song Cover">
+                <div class="song-info">
+                    <p class="song-title">Song Title</p>
+                    <p class="song-author">Author Name</p>
+                </div>
+                   <div class="song-options">
+                      <span></span>
+                      <span></span>
+                      <span></span>
+                   </div>
+               </li>
+               <li id="thissong6" class="song-item">
+                <img src="/static/img/maxresdefault.jpg" alt="Song Cover">
+                <div class="song-info">
+                    <p class="song-title">Song Title</p>
+                    <p class="song-author">Author Name</p>
+                </div>
+                   <div class="song-options">
+                      <span></span>
+                      <span></span>
+                      <span></span>
+                   </div>
+               </li>
+               <li id="thissong7" class="song-item">
+                <img src="/static/img/maxresdefault.jpg" alt="Song Cover">
+                <div class="song-info">
+                    <p class="song-title">Song Title</p>
+                    <p class="song-author">Author Name</p>
+                </div>
+                   <div class="song-options">
+                      <span></span>
+                      <span></span>
+                      <span></span>
+                   </div>
+               </li>
+               <li id="thissong8" class="song-item">
+                <img src="/static/img/maxresdefault.jpg" alt="Song Cover">
+                <div class="song-info">
+                    <p class="song-title">Song Title</p>
+                    <p class="song-author">Author Name</p>
+                </div>
+                   <div class="song-options">
+                      <span></span>
+                      <span></span>
+                      <span></span>
+                   </div>
+               </li>
+            </ul>
+
+            <button id="openPopup">Open Popup</button>
+                <div id="popup" class="popup">
+                    <div class="popup-content">
+                        <span id="closePopup" class="close">&times;</span>
+                        <div class="playerThis">
+                            <div class="title">Now Playing</div>
+                            <div class="cover"><img class="cover_img" src="/static/img/maxresdefault.jpg" alt="Album Cover" class="cover_img"></div>
+                            <div class="song">ฅ^•ﻌ•^ฅ</div>
+                                <audio class="audio" src="../static/audio/Bomzh.mp3"></audio>
+                            <div class="progress_container">
+                                <div class="progress"></div>
+                            </div>
+                            <div class="buttons">
+                                <div class="btn prev" ><img src="static/img/prev.svg" alt="btn"></div>
+                                <div class="btn play" ><img class="img_src" src="static/img/play.svg" alt="btn"></div>
+                                <div class="btn next" ><img src="static/img/next.svg" alt="btn"></div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
         </div>
     </div>
     <script src="static/js/app.js"></script>
 </body>
-</html>
-    <script src="static/js/app.js"></script>
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
-</body>
-</html>
-
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
+</html>
