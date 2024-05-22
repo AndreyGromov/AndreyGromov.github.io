@@ -28,6 +28,14 @@
 .player.scrollbar {
     display: none;
 }
+.playerThis {
+    background: #EFF3F5;
+    border-radius: 30px;
+    max-width: 380px;
+    width: 100%;
+    padding: 25px;
+}
+
 .title {
     font-style: normal;
     font-weight: 500;
@@ -162,10 +170,9 @@
     transform: translate(-50%, -50%);
     z-index: 1000;
     width: 80%;
-    max-width: 300px;
-    padding: 20px;
+    max-width: 380px;
     border: 1px solid #ccc;
-    border-radius: 10px;
+    border-radius: 30px;
     background-color: #fff;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
@@ -181,3 +188,4 @@
     font-size: 20px;
     cursor: pointer;
 }
+
