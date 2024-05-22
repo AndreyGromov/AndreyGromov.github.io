@@ -188,4 +188,18 @@
     font-size: 20px;
     cursor: pointer;
 }
+.panel {
+    position: fixed;
+    bottom: -100%;
+    border-radius: 30px;
+    width: 25%;
+    max-width: 380px
+    background-color: #f1f1f1;
+    padding: 20px;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.3);
+    transition: bottom 0.3s ease-in-out;
+}
 
+.panel.open {
+    bottom: 0;
+}
