@@ -10,10 +10,11 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background: #E4E9ED;
+    background: #2c2c2c;
 }
 .player {
-    background: #EFF3F5;
+    background: #333333;
+    color: #5959de;
     border-radius: 30px;
     max-width: 380px;
     width: 100%;
@@ -29,14 +30,54 @@
     display: none;
 }
 .playerThis {
-    display: none;
-    background: #EFF3F5;
+    bottom: -100%;
+    background: #333333;
     border-radius: 30px;
     height: 100%;
     max-height: 600px;
     width: 100%;
     max-width: 380px;
     padding: 60px;
+    transition: bottom 0.5s ease; /* Плавный переход */
+}
+/* панель с плеером */
+
+#openPopupPlayer {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+}
+.popupPlayer {
+    position: fixed;
+    bottom: -100%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    width: 100%;
+    max-width: 380px;
+    height: 100%;
+    max-height: 600px;
+    border: 1px solid #ccc;
+    border-radius: 30px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: bottom 0.5s ease; /* Плавный переход */
+}
+.popupPlayer.show {
+    /* Сделать видимым */
+    bottom: 10%; /* Конечная позиция, например, 10% от нижнего края экрана */
+}
+
+.popupPlayer-content {
+    position: relative;
+}
+
+.close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    cursor: pointer;
 }
 
 .title {
@@ -44,7 +85,7 @@
     font-weight: 500;
     font-size: 14px;
     line-height: 16px;
-    color: #2B3C5B;
+    color: #5959de;
     text-align: center;
 }
 .cover {
@@ -57,16 +98,57 @@
     height: 200px;
     border-radius: 50%;
     margin-bottom: 20px;
+    border: 6px solid #5959de;
+}
+.coverMin {
+    position: absolute;
+    top: 40px;
+    right: 40px;
+    display: flex;
+    justify-content: center;
+    margin: 25px 0;
+}
+.cover_imgMin {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-bottom: 20px;
+    border: 6px solid #5959de;
+    z-index: 10;
 }
 .active {
     animation: rotateAnimation 15s linear infinite;
+    animation-play-state: paused; /* Начальная установка паузы */
+}
+.activeMin {
+    animation: rotateAnimationMin 15s linear infinite;
+    animation-play-state: paused; /* Начальная установка паузы */
+}
+.playing {
+    animation-play-state: running; /* Установка воспроизведения */
+}
+@keyframes rotateAnimation {
+    0% {
+        transform: rotate(0);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+@keyframes rotateAnimationMin {
+    0% {
+        transform: rotate(0);
+    }
+    100% {
+        transform: rotate(-360deg);
+    }
 }
 
 .song {
     font-weight: bold;
     font-size: 24px;
     line-height: 28px;
-    color: #2B3C5B;
+    color: #5959de;
     text-align: center;
 }
 .progress_container {
@@ -80,7 +162,7 @@
     cursor: pointer;
 }
 .progress {
-    background: #2B3C5B;
+    background: #5959de;
     border-radius: 5px;
     height: 6px;
 
@@ -97,14 +179,7 @@
 .btn {
     cursor: pointer;
 }
-@keyframes rotateAnimation {
-    0% {
-        transform: rotate(0);
-    }
-    100% {
-        transform: rotate(360deg);
-    }
-}
+
 /* список песен */
  .song-list {
             list-style-type: none;
@@ -158,40 +233,3 @@
             border-radius: 50%;
             margin: 2px 0;
         }
-
-/* панель с плеером */
-
-#openPopup {
-    margin-top: 20px;
-    padding: 10px 20px;
-    font-size: 16px;
-}
-.popup {
-    display: none; /* Hidden by default */
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 1000;
-    width: 100%;
-    max-width: 380px;
-    height: 100%;
-    max-height: 600px;
-    border: 1px solid #ccc;
-    border-radius: 30px;
-    background-color: #fff;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.popup-content {
-    position: relative;
-}
-
-.close {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 20px;
-    cursor: pointer;
-}
-
