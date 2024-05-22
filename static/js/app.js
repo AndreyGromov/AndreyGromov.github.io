@@ -54,10 +54,12 @@ progressContainer.addEventListener('click', setProgress)
 
 document.getElementById('thissong').addEventListener('click', function() {
     document.getElementById('popup').style.display = 'block';
+    document.getElementById('playerThis').style.display = 'block';
 });
 
 document.getElementById('closePopup').addEventListener('click', function() {
     document.getElementById('popup').style.display = 'none';
+    document.getElementById('playerThis').style.display = 'none';
 });
 
 window.addEventListener('click', function(event) {
