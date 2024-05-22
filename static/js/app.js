@@ -66,6 +66,10 @@ window.addEventListener('click', function(event) {
         popup.style.display = 'none';
     }
 });
+document.getElementById('toggleButton').addEventListener('click', function() {
+    var panel = document.getElementById('slidePanel');
+    panel.classList.toggle('open');
+});
 
 let tg = window.Telegram.WebApp;
 
