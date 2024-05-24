@@ -42,7 +42,7 @@
     gap: 10px;
     top: 0px;
     z-index: 1000;
-    border: 1px solid #5959de;
+    border-bottom: 1px solid #5959de;
 }
         .search-bar input {
 
@@ -213,7 +213,6 @@
             display: flex;
             align-items: center;
             padding: 10px;
-            border-bottom: 1px solid #ddd;
         }
 
         .song-item img {
