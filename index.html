@@ -15,37 +15,56 @@
         <div class="headerPlayer">
            <div class="search-bar">
                <input type="text" placeholder="Search...">
+        {% if user %}
+            <h1>Hello, {{ user.username }}!</h1>
+            <p>Welcome to the Telegram Web App</p>
+        {% else %}
+            <h1>Please log in via Telegram.</h1>
+        {% endif %}
            </div>
            <div class="buttonsPlayer">
-               <button class="sectionButton active"  data-target="general">Главная</button>
-               <button class="sectionButton" data-target="userMusicSection">Моя музыка</button>
+               <button class="selectionButton activeSelect"  data-targetSl="userTrec">Главная</button>
+               <button class="selectionButton" data-targetSl="chopa">Моя музыка</button>
+               <button class="selectionButton" data-targetSl="popa">Недавнее</button>
+               <button class="selectionButton" data-targetSl="radio">Радио</button>
            </div>
-            <section id="general" class="section active">
-            <div class="buttonsSelectionContainer">
-               <button class="selectionButton activeSelect" data-target="userTrec">Новинки</button>
-               <button class="selectionButton" data-target="recent">Для вас</button>
-               <button class="selectionButton" >Радио</button>
-            </div>
-            </section>
-            <section id="userMusicSection" class="section">
-            <div class="buttonsSelectionContainer">
-               <button class="selectionButton activeSelect" >Мои треки</button>
-               <button class="selectionButton"  >Недавнее</button>
-               <button class="selectionButton"  >Мои плейлисты</button>
-            </div>
-            </section>
+
         </div>
 
         <div class="player">
             <section id="userTrec" class="sectionSelection active">
 
             <ul class="song-list">
-                {% for s in songs %}
-               <li id="thissong" class="song-item">
-                <img class="imgThisSong" src="/static/img/{{s[4]}}" alt="Song Cover">
+                {% for song in songs %}
+               <li class="song-item songItem" data-iconSong="{{song.Song_Cover}}" data-nameSong="{{song.Song_Title}}" data-fileSong="{{song.File_Name}}">
+                <img class="imgThisSong" src="/static/img/{{song.Song_Cover}}" alt="Song Cover">
                 <div class="song-info">
-                    <p class="song-title">{{s[1]}}</p>
-                    <p class="song-author">{{s[2]}}</p>
+                    <p class="song-title">{{song.Song_Title}}</p>
+                    <p class="song-author">{{song.Author}}</p>
+                </div>
+                   <div class="song-options">
+                      <span></span>
+                      <span></span>
+                      <span></span>
+                   </div>
+               </li>
+                {%endfor%}
+
+            </ul>
+            </section>
+            <section id="chopa" class="sectionSelection">
+               <p>Welcome to the Telegram Web App</p>
+            </section>
+            <section id="popa" class="sectionSelection">
+                <p>Welcome to the Telegram Web App</p>
+            </section>
+            <section id="radio" class="sectionSelection">
+                <ul class="song-list">
+                {% for s in stantion %}
+               <li class="song-item radioItem" data-iconRadio="{{s.station_icon}}" data-nameRadio="{{s.station_name}}" data-addressRadio="{{s.station_adress}}">
+                <img class="imgThisSong" src="/static/img/{{s.station_icon}}" alt="Song Cover">
+                <div class="song-info">
+                    <p class="song-title">{{s.station_name}}</p>
                 </div>
                    <div class="song-options">
                       <span></span>
@@ -58,16 +77,17 @@
             </ul>
             </section>
 
-            <section id="recent" class="sectionSelection"></section>
 
         </div>
+
+
         <div id="playerThis" class="playerThis">
             <span id="closePopupPlayer" class="close">&times;</span>
             <div class="title">Now Playing</div>
-            <div class="coverMin"><img class="cover_imgMin" src="/static/img/voy.jpg" alt="Album Cover" class="cover_imgMin"></div>
-            <div class="cover"><img id="playerImg" class="cover_img" src="/static/img/bomj.jpg" alt="Album Cover" class="cover_img"></div>
-            <div class="song">ฅ^•ﻌ•^ฅ</div>
-            <audio class="audio" src="../static/audio/Bomzh.mp3"></audio>
+            <div class="coverMin"><img class="cover_imgMin" src="" alt="Album Cover" class="cover_imgMin"></div>
+            <div class="cover"><img id="playerImg" class="cover_img" src="" alt="Album Cover" class="cover_img"></div>
+            <div class="song" id="playerTitle">ฅ^•ﻌ•^ฅ</div>
+            <audio class="audio" id="playerAudio" src=""></audio>
             <div class="progress_container">
                 <div class="progress"></div>
             </div>
@@ -80,6 +100,35 @@
         </div>
     </div>
     <script src="static/js/app.js"></script>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+     <script>
+        window.Telegram.WebApp.ready();
+
+        const user = Telegram.WebApp.initDataUnsafe.user;
+
+        if (user) {
+            // Передача данных пользователя на сервер для аутентификации
+            fetch('/auth', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    id: user.id,
+                    first_name: user.first_name,
+                    last_name: user.last_name,
+                    username: user.username
+                })
+            }).then(response => {
+                if (response.ok) {
+                    // Пользователь успешно аутентифицирован, обновляем страницу
+                    location.reload();
+                } else {
+                    // Обработка ошибки аутентификации
+                    console.error('Ошибка аутентификации');
+                }
+            });
+        }
+    </script>
 </body>
-<script src="https://telegram.org/js/telegram-web-app.js"></script>
 </html>
