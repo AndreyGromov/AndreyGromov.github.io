@@ -1,3 +1,5 @@
+
+
 const player = document.querySelector('.player'),
         playBtn = document.querySelector('.play'),
         prevBtn = document.querySelector('.prev'),
@@ -11,7 +13,7 @@ const player = document.querySelector('.player'),
         imgSrc = document.querySelector('.img_src')
 
 
-
+// Плеер
 function playSong() {
     player.classList.add('play')
     cover.classList.add('active', 'playing')
@@ -60,30 +62,56 @@ document.getElementById('closePopupPlayer').addEventListener('click', function()
     closeSong.classList.remove('show')
 });
 
-document.getElementById('thissong').addEventListener('click', function() {
+const songItems = document.querySelectorAll('.songItem');
+const radioItems = document.querySelectorAll('.radioItem');
 
-    var popupSong = document.getElementById('playerThis');
-    popupSong.classList.toggle('show');
+const playerImg = document.getElementById('playerImg');
+const playerTitle = document.getElementById('playerTitle');
+const playerAudio = document.getElementById('playerAudio');
+
+// Добавляем обработчик события 'click' для каждого элемента
+songItems.forEach(item => {
+    item.addEventListener('click', function() {
+        var popupSong = document.getElementById('playerThis');
+        popupSong.classList.toggle('show');
+        const icon = this.getAttribute('data-iconSong');
+        const name = this.getAttribute('data-nameSong');
+        const fileSong = this.getAttribute('data-fileSong');
+
+        coverMin.src = `/static/img/radioicon.svg`;
+        playerImg.src = `/static/img/${icon}`;
+        playerTitle.textContent = name;
+        playerAudio.src = `/static/audio/${fileSong}`;
+        playSong();
+
+    });
+});
+
+// Добавляем обработчик события 'click' для каждого элемента
+radioItems.forEach(item => {
+    item.addEventListener('click', function() {
+        var popupSong = document.getElementById('playerThis');
+        popupSong.classList.toggle('show');
+        const icon = this.getAttribute('data-iconRadio');
+        const name = this.getAttribute('data-nameRadio');
+        const address = this.getAttribute('data-addressRadio');
+
+        coverMin.src = `/static/img/radioicon.svg`;
+        playerImg.src = `/static/img/${icon}`;
+        playerTitle.textContent = name;
+        playerAudio.src = address;
+        playSong();
+
+
+    });
 });
 
 // Кнопки и их секции
 document.addEventListener("DOMContentLoaded", function () {
-    const sectionButtons = document.querySelectorAll(".sectionButton");
     const selectionButtons = document.querySelectorAll(".selectionButton");
     const sections = document.querySelectorAll(".section");
     const sectionSelection = document.querySelectorAll(".sectionSelection");
 
-    sectionButtons.forEach(sectionButton => {
-        sectionButton.addEventListener("click", () => {
-            // Удаляем класс active у всех кнопок и секций
-            sectionButtons.forEach(btn => btn.classList.remove("active"));
-            sections.forEach(section => section.classList.remove("active"));
-            // Добавляем класс active к текущей кнопке и соответствующей секции
-            sectionButton.classList.add("active");
-            const target = sectionButton.getAttribute("data-target");
-            document.getElementById(target).classList.add("active");
-        });
-    });
 
     //фильтр
         selectionButtons.forEach(selectionButton => {
@@ -91,7 +119,7 @@ document.addEventListener("DOMContentLoaded", function () {
             selectionButtons.forEach(btn => btn.classList.remove("activeSelect"));
             sectionSelection.forEach(section => section.classList.remove("active"));
             selectionButton.classList.add("activeSelect");
-            const target = selectionButton.getAttribute("data-target");
+            const target = selectionButton.getAttribute("data-targetSl");
             document.getElementById(target).classList.add("active");
         });
     });
@@ -100,6 +128,97 @@ document.addEventListener("DOMContentLoaded", function () {
 
 });
 
-let tg = window.Telegram.WebApp;
+document.addEventListener('DOMContentLoaded', () => {
+    const container = document.querySelector('.player');
+    const buttons = document.querySelectorAll('.selectionButton');
+    let isDown = false;
+    let startX;
+    let scrollLeft;
 
-tg.expand();
+    container.addEventListener('mousedown', (e) => {
+        isDown = true;
+        startX = e.pageX - container.offsetLeft;
+        scrollLeft = container.scrollLeft;
+    });
+
+    container.addEventListener('mouseleave', () => {
+        isDown = false;
+    });
+
+    container.addEventListener('mouseup', () => {
+        isDown = false;
+        snapToSection();
+    });
+
+    container.addEventListener('mousemove', (e) => {
+        if (!isDown) return;
+        e.preventDefault();
+        const x = e.pageX - container.offsetLeft;
+        const walk = (x - startX) * 2; //scroll-fast
+        container.scrollLeft = scrollLeft - walk;
+    });
+
+    container.addEventListener('touchstart', (e) => {
+        isDown = true;
+        startX = e.touches[0].pageX - container.offsetLeft;
+        scrollLeft = container.scrollLeft;
+    });
+
+    container.addEventListener('touchend', () => {
+        isDown = false;
+        snapToSection();
+    });
+
+    container.addEventListener('touchmove', (e) => {
+        if (!isDown) return;
+        const x = e.touches[0].pageX - container.offsetLeft;
+        const walk = (x - startX) * 2; //scroll-fast
+        container.scrollLeft = scrollLeft - walk;
+    });
+
+    function snapToSection() {
+        const sections = document.querySelectorAll('.sectionSelection');
+        const sectionWidth = sections[0].offsetWidth;
+        const scrollPosition = container.scrollLeft;
+        const index = Math.round(scrollPosition / sectionWidth);
+
+        container.scrollTo({
+            left: sectionWidth * index,
+            behavior: 'smooth'
+        });
+        // Получение текущей активной секции
+        const activeSection = sections[index];
+        const activeSectionId = activeSection.id;
+
+        // Обновление активного стиля кнопок
+        buttons.forEach(button => {
+            if (button.getAttribute('data-targetSl') === activeSectionId) {
+                button.classList.add('activeSelect');
+            } else {
+                button.classList.remove('activeSelect');
+            }
+        });
+
+        console.log("Current Section ID:", activeSectionId);
+    }
+    snapToSection();
+
+    // Добавление обработчиков событий для кнопок
+    buttons.forEach(button => {
+        button.addEventListener('click', () => {
+            const targetId = button.getAttribute('data-targetSl');
+            const targetSection = document.getElementById(targetId);
+            const sectionWidth = targetSection.offsetWidth;
+
+            // Прокрутка до нужной секции
+            container.scrollTo({
+                left: sectionWidth * [...targetSection.parentNode.children].indexOf(targetSection),
+                behavior: 'smooth'
+            });
+
+            // Обновление активного стиля кнопок
+            buttons.forEach(btn => btn.classList.remove('activeSelect'));
+            button.classList.add('activeSelect');
+        });
+    });
+});
