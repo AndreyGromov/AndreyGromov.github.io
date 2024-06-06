@@ -13,21 +13,34 @@
 
     <div class="wrapper">
         <div class="headerPlayer">
-           <div class="search-bar">
-               <input type="text" placeholder="Search...">
-        {% if user %}
-            <h1>Hello, {{ user.username }}!</h1>
-            <p>Welcome to the Telegram Web App</p>
-        {% else %}
-            <h1>Please log in via Telegram.</h1>
-        {% endif %}
-           </div>
            <div class="buttonsPlayer">
                <button class="selectionButton activeSelect"  data-targetSl="userTrec">Главная</button>
-               <button class="selectionButton" data-targetSl="chopa">Моя музыка</button>
-               <button class="selectionButton" data-targetSl="popa">Недавнее</button>
-               <button class="selectionButton" data-targetSl="radio">Радио</button>
+               <button class="selectionButton" data-targetSl="myMusic">Моя музыка</button>
+               <button class="selectionButton" data-targetSl="search">Поиск</button>
+               <button class="selectionButton" data-targetSl="radio">{{username}}</button>
            </div>
+            <div class="buttonsPlayer">
+            <button class="dropdown addSong"><div id="add"></div><img class="dropimg dropimgAdd" src="/static/img/imgFunc/add.svg">Добавить</button>
+            <button class="dropdown shareSong"><img class="dropimg dropimgShar" src="/static/img/imgFunc/share.svg">Поделиться</button>
+                <button class="dropdown downloadSong"><img class="dropimg dropimgDown" src="/static/img/imgFunc/download.svg">Скачать:<p id="nameOption"></p></button>
+            <button class="dropdown backSong"><img class="dropimg dropimgBack" src="/static/img/imgFunc/minikrestik.svg">Отменить</button>
+            </div>
+
+            <li id="song-itemMiniPlayer" class="song-itemMiniPlayer songItem" data-iconSong="" data-nameSong="" data-fileSong="">
+                <img id="imgMiniPlayer" class="imgThisSong playMini" src="/static/img/imgFunc/playMini.svg" alt="Song Cover">
+                <div id="song-itemMiniPlayerTup" class="song-itemMiniPlayerTup">
+                <div class="song-info">
+                    <p id="miniPlayerTitle" class="song-titleMiniPlayer">Abeba</p>
+                    <p id="miniPlayerAuthor" class="song-authorMiniPlayer">Abeba</p>
+                </div>
+                <div id="miniPlayerFileName" style="display:none"></div>
+                </div>
+                   <div id="miniClose" class="song-options">
+                      <img id="closeMiniPlayer" class="closeMiniPlayer" src="/static/img/imgFunc/krestik.svg" alt="Song Cover">
+                   </div>
+            </li>
+
+
 
         </div>
 
@@ -35,46 +48,168 @@
             <section id="userTrec" class="sectionSelection active">
 
             <ul class="song-list">
-                {% for song in songs %}
-               <li class="song-item songItem" data-iconSong="{{song.Song_Cover}}" data-nameSong="{{song.Song_Title}}" data-fileSong="{{song.File_Name}}">
-                <img class="imgThisSong" src="/static/img/{{song.Song_Cover}}" alt="Song Cover">
-                <div class="song-info">
-                    <p class="song-title">{{song.Song_Title}}</p>
-                    <p class="song-author">{{song.Author}}</p>
+               <div class="containerMus">
+                   <p class="container-title">Новинки</p>
+                    <div class="scrollable">
+                    {% for column in songs|batch(3) %}
+                     <div class="column">
+                     {% for song in column %}
+                        <div class="stroka" >
+                        <li value="{{loop.index}}" class="song-item playSongClick songItemNewSong{{loop.index}}" data-chapter="NewSong" data-indexMin="{{loop.index}}" data-idSong="{{song.id_song}}" data-iconSong="{{song.Song_Cover}}" data-nameSong="{{song.Song_Title}}" data-fileSong="{{song.File_Name}}" data-authorSong="{{song.Author}}">
+                        <img class="imgThisSong" src="/static/img/{{song.Song_Cover}}" alt="Song Cover">
+
+                        <div class="song-info">
+                            <p class="song-title">{{ song.Song_Title }}</p>
+                            <p class="song-author">{{song.Author}}</p>
+                        </div>
+
+                        </li>
+                        <div class="song-options dropdownClick" data-idOption="{{song.id_song}}" data-nameOption="{{song.Song_Title}}">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+
+                         </div>
+                         </div>
+                      {% endfor %}
+                      </div>
+                      {% endfor %}
+                    </div>
                 </div>
-                   <div class="song-options">
-                      <span></span>
-                      <span></span>
-                      <span></span>
-                   </div>
-               </li>
-                {%endfor%}
+                <div class="containerMusNarrow">
+                   <p class="container-title">Радиостанции</p>
+                    <div class="scrollable">
+                    {% for s in stantion %}
+                     <div class="column">
+
+                        <li value="{{loop.index}}" class="songRadio-item playSongClick songItemRadio{{loop.index}}" data-chapter="Radio" data-indexMin="{{loop.index}}" data-iconSong="{{s.station_icon}}" data-nameSong="{{s.station_name}}" data-fileSong="{{s.station_adress}}">
+                          <img class="imgThisSong" src="/static/img/{{s.station_icon}}" alt="Song Cover">
+                            <div class="song-info">
+                               <p class="songRadio-title">{{s.station_name}}{{loop.index}}</p>
+                            </div>
+
+                        </li>
+
+                      </div>
+                      {% endfor %}
+                    </div>
+                </div>
+                <div class="containerMus">
+                   <p class="container-title">Для вас</p>
+                    <div class="scrollable">
+                    {% for column in songs|batch(3) %}
+                     <div class="column">
+                     {% for song in column %}
+                        <div class="stroka" >
+                        <li value="{{loop.index}}" class="song-item playSongClick songItemNewSong{{loop.index}}" data-chapter="NewSong" data-indexMin="{{loop.index}}" data-idSong="{{song.id_song}}" data-iconSong="{{song.Song_Cover}}" data-nameSong="{{song.Song_Title}}" data-fileSong="{{song.File_Name}}" data-authorSong="{{song.Author}}">
+                        <img class="imgThisSong" src="/static/img/{{song.Song_Cover}}" alt="Song Cover">
+
+                        <div class="song-info">
+                            <p class="song-title">{{ song.Song_Title }}</p>
+                            <p class="song-author">{{song.Author}}</p>
+                        </div>
+
+                        </li>
+                        <div class="song-options dropdownClick" data-idOption="{{song.id_song}}" data-nameOption="{{song.Song_Title}}">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+
+                         </div>
+                         </div>
+                      {% endfor %}
+                      </div>
+                      {% endfor %}
+                    </div>
+                </div>
 
             </ul>
             </section>
-            <section id="chopa" class="sectionSelection">
-               <p>Welcome to the Telegram Web App</p>
+
+            <section id="myMusic" class="sectionSelection">
+                <ul class="song-list">
+               <div class="containerMus">
+                   <p class="container-title">Мои треки</p>
+                    <div class="scrollable">
+                    {% for column in songs|batch(3) %}
+                     <div class="column">
+                     {% for song in column %}
+                        <li value="{{loop.index}}" class="song-item playSongClick userSong{{song.id_song}} hidden songItemMyTrecs{{loop.index}}" data-chapter="MyTrecs" data-indexMin="{{loop.index}}" data-iconSong="{{song.Song_Cover}}" data-nameSong="{{song.Song_Title}}" data-fileSong="{{song.File_Name}}" data-authorSong="{{song.Author}}">
+                        <img class="imgThisSong" src="/static/img/{{song.Song_Cover}}" alt="Song Cover">
+
+                        <div class="song-info">
+                            <p class="song-title">{{ song.Song_Title }}</p>
+                            <p class="song-author">{{song.Author}}</p>
+                        </div>
+                        <div class="song-options">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                         </div>
+                        </li>
+                      {% endfor %}
+                      </div>
+                      {% endfor %}
+                    </div>
+                </div>
+                <div class="containerMusNarrow">
+                   <p class="container-title">Мои радиостанции</p>
+                    <div class="scrollable">
+                    {% for s in stantion %}
+                     <div class="column">
+
+                        <li value="{{loop.index}}" class="songRadio-item playSongClick songItemMyRadio{{loop.index}}" data-chapter="MyRadio" data-indexMin="{{loop.index}}" data-iconSong="{{s.station_icon}}" data-nameSong="{{s.station_name}}" data-fileSong="{{s.station_adress}}">
+                          <img class="imgThisSong" src="/static/img/{{s.station_icon}}" alt="Song Cover">
+                            <div class="song-info">
+                               <p class="songRadio-title">{{s.station_name}}{{loop.index}}</p>
+                            </div>
+
+                        </li>
+
+                      </div>
+                      {% endfor %}
+                    </div>
+                </div>
+                <div class="containerMus">
+                   <p class="container-title">Недавно прослушанные</p>
+                    <div class="scrollable">
+                    {% for column in songs|batch(3) %}
+                     <div class="column">
+                     {% for song in column %}
+                        <li value="{{loop.index}}" class="song-item playSongClick recentSong{{song.id_song}} hidden songItemRecentSong{{loop.index}}" data-chapter="RecentSong" data-indexMin="{{loop.index}}" data-idSong="{{song.id_song}}" data-iconSong="{{song.Song_Cover}}" data-nameSong="{{song.Song_Title}}" data-fileSong="{{song.File_Name}}" data-authorSong="{{song.Author}}">
+                        <img class="imgThisSong" src="/static/img/{{song.Song_Cover}}" alt="Song Cover">
+
+                        <div class="song-info">
+                            <p class="song-title">{{ song.Song_Title }}</p>
+                            <p class="song-author">{{song.Author}}</p>
+                        </div>
+                        <div class="song-options">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                         </div>
+                        </li>
+                      {% endfor %}
+                      </div>
+                      {% endfor %}
+                    </div>
+                </div>
+
+            </ul>
             </section>
-            <section id="popa" class="sectionSelection">
+            <section id="search" class="sectionSelection">
                 <p>Welcome to the Telegram Web App</p>
             </section>
-            <section id="radio" class="sectionSelection">
-                <ul class="song-list">
-                {% for s in stantion %}
-               <li class="song-item radioItem" data-iconRadio="{{s.station_icon}}" data-nameRadio="{{s.station_name}}" data-addressRadio="{{s.station_adress}}">
-                <img class="imgThisSong" src="/static/img/{{s.station_icon}}" alt="Song Cover">
-                <div class="song-info">
-                    <p class="song-title">{{s.station_name}}</p>
-                </div>
-                   <div class="song-options">
-                      <span></span>
-                      <span></span>
-                      <span></span>
-                   </div>
-               </li>
-                {%endfor%}
 
-            </ul>
+            <section id="radio" class="sectionSelection">
+                <div class="userInf">
+                  <img src="/static/img/imgFunc/userIcon.svg" >
+                  <div class="song-info">
+                      <p class="song-title" style="color:#1C274C">{{first_name}} {{last_name}}</p>
+                            <p class="song-author">{{username}}</p>
+                  </div>
+                </div>
+
             </section>
 
 
@@ -82,29 +217,35 @@
 
 
         <div id="playerThis" class="playerThis">
-            <span id="closePopupPlayer" class="close">&times;</span>
-            <div class="title">Now Playing</div>
+            <img id="closePopupPlayer" class="close" src="static/img/imgFunc/close.svg">
+
             <div class="coverMin"><img class="cover_imgMin" src="" alt="Album Cover" class="cover_imgMin"></div>
             <div class="cover"><img id="playerImg" class="cover_img" src="" alt="Album Cover" class="cover_img"></div>
             <div class="song" id="playerTitle">ฅ^•ﻌ•^ฅ</div>
-            <audio class="audio" id="playerAudio" src=""></audio>
+            <div id="fileName" style="display:none"></div>
+            <div id="schetchik" ></div>
+            <div id="chapter" ></div>
+            <div id="file" ></div>
+            <div id="id" ></div>
+            <audio class="audio" id="playerAudio" src="" value=""></audio>
             <div class="progress_container">
                 <div class="progress"></div>
             </div>
             <div class="buttons">
-                <div class="btn prev" ><img src="static/img/prev.svg" alt="btn"></div>
-                <div class="btn play" ><img class="img_src" src="static/img/play.svg" alt="btn"></div>
-                <div class="btn next" ><img src="static/img/next.svg" alt="btn"></div>
+                <div class="btn prev" ><img src="static/img/imgFunc/prev.svg" alt="btn"></div>
+                <div class="btn play" ><img class="img_src" src="static/img/imgFunc/play.svg" alt="btn"></div>
+                <div class="btn next" ><img src="static/img/imgFunc/next.svg" alt="btn"></div>
             </div>
 
         </div>
     </div>
     <script src="static/js/app.js"></script>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-     <script>
+        <script>
+        // Убедитесь, что библиотека Telegram Web App загружена
         window.Telegram.WebApp.ready();
 
-        const user = Telegram.WebApp.initDataUnsafe.user;
+        const user = window.Telegram.WebApp.initDataUnsafe.user;
 
         if (user) {
             // Передача данных пользователя на сервер для аутентификации
@@ -121,14 +262,19 @@
                 })
             }).then(response => {
                 if (response.ok) {
-                    // Пользователь успешно аутентифицирован, обновляем страницу
-                    location.reload();
+                    // Пользователь успешно аутентифицирован
+                    window.location.href = '/';
                 } else {
                     // Обработка ошибки аутентификации
                     console.error('Ошибка аутентификации');
                 }
             });
+        } else {
+            console.error('Ошибка: пользовательские данные не доступны');
         }
     </script>
+
+</body>
+</html>
 </body>
 </html>
