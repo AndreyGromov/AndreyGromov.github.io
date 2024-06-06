@@ -1,7 +1,6 @@
-
-
 const player = document.querySelector('.player'),
         playBtn = document.querySelector('.play'),
+        playBtnMini = document.querySelector('.playMini'),
         prevBtn = document.querySelector('.prev'),
         nextBtn = document.querySelector('.next'),
         audio = document.querySelector('.audio'),
@@ -12,23 +11,38 @@ const player = document.querySelector('.player'),
         coverMin = document.querySelector('.cover_imgMin'),
         imgSrc = document.querySelector('.img_src')
 
-
+const songsArrayRecent = [];
+const songsArrayUserSong = [];
+var songId = 0;
 // Плеер
 function playSong() {
     player.classList.add('play')
     cover.classList.add('active', 'playing')
     coverMin.classList.add('activeMin', 'playing')
-    imgSrc.src = "./static/img/pause.svg"
+    imgSrc.src = "./static/img/imgFunc/pauseMini.svg"
+    imgMiniPlayer.src = "./static/img/imgFunc/pauseMini.svg"
     audio.play()
+    RecentSong();
+
 }
+
 function pauseSong() {
     player.classList.remove('play')
     cover.classList.remove('playing')
     coverMin.classList.remove('playing')
-    imgSrc.src = "./static/img/play.svg"
+    imgSrc.src = "./static/img/imgFunc/playMini.svg"
+    imgMiniPlayer.src = "./static/img/imgFunc/playMini.svg"
     audio.pause()
 }
 playBtn.addEventListener('click', () => {
+    const isPlaying = player.classList.contains('play')
+    if (isPlaying) {
+        pauseSong()
+    } else {
+        playSong()
+    }
+})
+playBtnMini.addEventListener('click', () => {
     const isPlaying = player.classList.contains('play')
     if (isPlaying) {
         pauseSong()
@@ -60,51 +74,239 @@ document.getElementById('closePopupPlayer').addEventListener('click', function()
 
     var closeSong = document.getElementById('playerThis');
     closeSong.classList.remove('show')
+
 });
 
-const songItems = document.querySelectorAll('.songItem');
-const radioItems = document.querySelectorAll('.radioItem');
+
+
+//Мини плеер вызвать
+
+const songItems = document.querySelectorAll('.song-item');
+const radioItems = document.querySelectorAll('.songRadio-item');
+playSongClick = document.querySelectorAll('.playSongClick')
+dropdownClicks = document.querySelectorAll('.dropdownClick')
 
 const playerImg = document.getElementById('playerImg');
 const playerTitle = document.getElementById('playerTitle');
 const playerAudio = document.getElementById('playerAudio');
+const miniPlayer = document.getElementById('song-itemMiniPlayer');
+const miniPlayerTup = document.getElementById('song-itemMiniPlayerTup');
+const playImgMini = document.getElementById('imgMiniPlayer');
+var miniPlayerTitle = document.querySelector('.song-titleMiniPlayer');
+var miniPlayerAuthor = document.querySelector('.song-authorMiniPlayer');
+addSongBtn = document.querySelector('.addSong');
+shareSongBtn = document.querySelector('.shareSong');
+downloadSongBtn = document.querySelector('.downloadSong');
+backSongBtn = document.querySelector('.backSong');
+imgAdd = document.querySelector('.dropimgAdd');
+imgShar = document.querySelector('.dropimgShar');
+imgDown = document.querySelector('.dropimgDown');
+imgBack = document.querySelector('.dropimgBack');
 
-// Добавляем обработчик события 'click' для каждого элемента
-songItems.forEach(item => {
-    item.addEventListener('click', function() {
-        var popupSong = document.getElementById('playerThis');
-        popupSong.classList.toggle('show');
-        const icon = this.getAttribute('data-iconSong');
-        const name = this.getAttribute('data-nameSong');
-        const fileSong = this.getAttribute('data-fileSong');
-
-        coverMin.src = `/static/img/radioicon.svg`;
-        playerImg.src = `/static/img/${icon}`;
-        playerTitle.textContent = name;
-        playerAudio.src = `/static/audio/${fileSong}`;
-        playSong();
-
-    });
-});
-
-// Добавляем обработчик события 'click' для каждого элемента
-radioItems.forEach(item => {
-    item.addEventListener('click', function() {
-        var popupSong = document.getElementById('playerThis');
-        popupSong.classList.toggle('show');
-        const icon = this.getAttribute('data-iconRadio');
-        const name = this.getAttribute('data-nameRadio');
-        const address = this.getAttribute('data-addressRadio');
-
-        coverMin.src = `/static/img/radioicon.svg`;
-        playerImg.src = `/static/img/${icon}`;
-        playerTitle.textContent = name;
-        playerAudio.src = address;
-        playSong();
-
+ dropdownClicks.forEach(dropdownClick => {
+    dropdownClick.addEventListener('click', function() {
+        addSongBtn.classList.add('showdown');
+        shareSongBtn.classList.add('showdown');
+        downloadSongBtn.classList.add('showdown');
+        backSongBtn.classList.add('showdown');
+        imgAdd.classList.add('showdown');
+        imgShar.classList.add('showdown');
+        imgDown.classList.add('showdown');
+        imgBack.classList.add('showdown');
+        idSongDown = this.getAttribute('data-idOption');
+        nameSongDown = this.getAttribute('data-nameOption');
+        add.textContent = idSongDown;
+        nameOption.textContent = nameSongDown;
 
     });
 });
+backSongBtn.addEventListener('click', function() {
+        addSongBtn.classList.remove('showdown');
+        shareSongBtn.classList.remove('showdown');
+        downloadSongBtn.classList.remove('showdown');
+        backSongBtn.classList.remove('showdown');
+        imgAdd.classList.remove('showdown');
+        imgShar.classList.remove('showdown');
+        imgDown.classList.remove('showdown');
+        imgBack.classList.remove('showdown');
+
+    });
+addSongBtn.addEventListener('click', function() {
+        console.log('обавление');
+        AddSong();
+    });
+
+document.getElementById('miniClose').addEventListener('click', function() {
+    miniPlayer.classList.remove('expanded');
+    miniPlayerTitle.classList.remove('expanded');
+    miniPlayerAuthor.classList.remove('expanded');
+    pauseSong();
+    audio.currentTime = 0;
+});
+
+
+document.addEventListener('DOMContentLoaded', () => {
+
+
+
+ playSongClick.forEach(expandButton => {
+        expandButton.addEventListener('click', function() {
+
+            console.log(songId);
+            var popupSong = document.getElementById('playerThis');
+            const icon = this.getAttribute('data-iconSong');
+            const idSong = this.getAttribute('data-idSong');
+            const name = this.getAttribute('data-nameSong');
+            const author = this.getAttribute('data-authorSong');
+            const fileSong = this.getAttribute('data-fileSong');
+            const chapterItem = this.getAttribute('data-chapter');
+            const index = this.value;
+
+            miniPlayer.classList.add('expanded');
+            miniPlayerTitle.classList.add('expanded');
+            miniPlayerAuthor.classList.add('expanded');
+            miniPlayerTitle.textContent = name;
+            miniPlayerAuthor.textContent = author;
+            miniPlayerFileName.textContent = fileSong;
+            songId = idSong;
+            console.log(songId);
+
+        if (fileName.textContent == fileSong) {
+            console.log('1');
+            playSong();
+        } else {
+            console.log(fileName.textContent);
+                    coverMin.src = `/static/img/imgFunc/radioicon.svg`;
+                    playerImg.src = `/static/img/${icon}`;
+                    playerTitle.textContent = name;
+                    fileName.textContent = fileSong;
+                    if (chapterItem == 'NewSong' || chapterItem == 'ForYou' || chapterItem == 'MyTrecs' || chapterItem == 'RecentSong') {
+                        playerAudio.src = `/static/audio/${fileSong}`;
+                    } else if (chapterItem == 'Radio' || chapterItem == 'MyRadio') {
+                        playerAudio.src = fileSong;
+                    }
+                    id.textContent = idSong;
+                    schetchik.textContent = index;
+                    chapter.textContent = chapterItem;
+                    file.textContent = fileSong;
+                    playerAudio.value = index;
+                    playSong();
+
+
+        }
+        });
+    });
+});
+
+function RecentSong() {
+    songsArrayRecent.push(id.textContent);
+            console.log(songsArrayRecent);
+            const recentSong = document.querySelector('.recentSong' + id.textContent);
+            // Проходим по каждому элементу
+                // Проверяем, есть ли idSong в массиве validSongIds
+                if (!songsArrayRecent.includes(id.textContent)) {
+                    // Если нет, скрываем элемент
+                    recentSong.classList.add('hidden');
+                }else{
+                    recentSong.classList.remove('hidden');
+                }
+}
+function AddSong(){
+    songsArrayUserSong.push(add.textContent);
+            console.log(songsArrayUserSong);
+            const userSong = document.querySelector('.userSong' + add.textContent);
+            console.log(userSong);
+            // Проходим по каждому элементу
+                // Проверяем, есть ли idSong в массиве validSongIds
+                if (!songsArrayUserSong.includes(add.textContent)) {
+                    // Если нет, скрываем элемент
+                    userSong.classList.add('hidden');
+                }else{
+                    userSong.classList.remove('hidden');
+                }
+}
+
+function NextSong() {
+
+                let schetItem = document.querySelector('.songItem' + chapter.textContent + schetchik.textContent);
+                if (schetItem) {
+    // Если элемент найден
+    console.log('Элемент найден:', schetItem);
+    // schetItem остается с тем же значением
+} else {
+    // Если элемент не найден
+    console.log('Элемент не найден');
+    // Присваиваем другое значение, например, null или какой-то другой элемент
+    schetchik.textContent = '1';
+    schetItem = document.querySelector('.songItem' + chapter.textContent + schetchik.textContent);
+}
+
+                const iconSchet = schetItem.getAttribute('data-iconSong');
+                const nameSchet = schetItem.getAttribute('data-nameSong');
+                const authorSchet = schetItem.getAttribute('data-authorSong');
+                const fileSongSchet = schetItem.getAttribute('data-fileSong');
+                const chapterItemNS = schetItem.getAttribute('data-chapter');
+                const idSong = schetItem.getAttribute('data-idSong');
+
+                miniPlayer.classList.add('expanded');
+                miniPlayerTitle.classList.add('expanded');
+                miniPlayerAuthor.classList.add('expanded');
+                miniPlayerTitle.textContent = nameSchet;
+                miniPlayerAuthor.textContent = authorSchet;
+                miniPlayerFileName.textContent = fileSongSchet;
+
+                coverMin.src = `/static/img/imgFunc/radioicon.svg`;
+                    playerImg.src = `/static/img/${iconSchet}`;
+                    playerTitle.textContent = nameSchet;
+                    fileName.textContent = fileSongSchet;
+                    id.textContent = idSong;
+                    if (chapterItemNS == 'NewSong' || chapterItemNS == 'ForYou' || chapterItemNS == 'MyTrecs' || chapterItemNS == 'RecentSong') {
+                        playerAudio.src = `/static/audio/${fileSongSchet}`;
+                    } else if (chapterItemNS == 'Radio' || chapterItemNS == 'MyRadio') {
+                        playerAudio.src = fileSongSchet;
+                    }
+
+                    playSong();
+}
+
+document.addEventListener('DOMContentLoaded', (event) => {
+            const audioPlayer = document.getElementById('playerAudio');
+            const nextSongBtn = document.getElementById('nextSongBtn');
+            const prevSongBtn = document.getElementById('prevSongBtn');
+
+            audioPlayer.addEventListener('ended', function() {
+            let sum = parseInt(schetchik.textContent, 10) + 1;
+                let schetNext = sum.toString();
+                schetchik.textContent = schetNext;
+            NextSong();
+            });
+            nextBtn.addEventListener('click', function() {
+            let sum = parseInt(schetchik.textContent, 10) + 1;
+                let schetNext = sum.toString();
+                schetchik.textContent = schetNext;
+            NextSong();
+            });
+            prevBtn.addEventListener('click', function() {
+            let sub = parseInt(schetchik.textContent, 10) - 1;
+                let schetPrev = sub.toString();
+                schetchik.textContent = schetPrev;
+            NextSong();
+            });
+        });
+
+
+
+// Песня клик
+
+    miniPlayerTup.addEventListener('click', function() {
+        var popupSong = document.getElementById('playerThis');
+
+        popupSong.classList.toggle('show');
+
+    });
+
+
+
 
 // Кнопки и их секции
 document.addEventListener("DOMContentLoaded", function () {
@@ -128,6 +330,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 });
 
+//Для свайпа секций
 document.addEventListener('DOMContentLoaded', () => {
     const container = document.querySelector('.player');
     const buttons = document.querySelectorAll('.selectionButton');
@@ -222,3 +425,4 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
+//Поиск
