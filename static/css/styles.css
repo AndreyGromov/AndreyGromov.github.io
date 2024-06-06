@@ -14,9 +14,12 @@
     flex-direction: column;
 }
 .player {
-    background: #0f1318;
+    background: #0b0e11;
     color: #5959de;
-    border-radius: 30px;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+    border-top: 2px solid #5959de;
+    box-shadow: 0 0 20px #5959de;
     max-width: 380px;
     width: 100%;
     height: 100%;
@@ -24,6 +27,7 @@
     overflow: auto;
     display: flex;
     touch-action: pan-y;
+    z-index: 600;
 }
 /* Шапка */
 .player::-webkit-scrollbar {
@@ -43,7 +47,8 @@
     max-width: 380px;
     gap: 10px;
     top: 0px;
-    z-index: 1000;
+    z-index: 500;
+    margin-bottom: 5px;
 
 }
 
@@ -57,6 +62,90 @@
             background-color: #444444; /* Darker input background */
             color: #FFFFFF;
         }
+
+/*Мини плеер*/
+
+        .song-itemMiniPlayer {
+            display: flex;
+            align-items: center;
+            margin: 5px;
+            max-height: 0;
+
+            border-radius: 5px;
+
+            border-bottom-radius: 30px;
+            transition: max-height 0.3s ease-out;
+        }
+        .song-itemMiniPlayerTup{
+             width: 100%;
+}
+
+        .song-titleMiniPlayer {
+            font-size: 0px;
+            font-weight: bold;
+            margin: 0;
+            color: #5959de;
+            transition: font-size 0.3s ease-out;
+        }
+
+        .song-authorMiniPlayer {
+            font-size: 0px;
+            color: #666;
+            margin: 0;
+            transition: font-size 0.3s ease-out;
+        }
+        .song-itemMiniPlayer img {
+            width: 0px;
+            height: 0px;
+            border-radius: 4px;
+            margin: 5px;
+            transition: width 0.3s ease-out;
+            transition: height 0.3s ease-out;
+        }
+
+.song-itemMiniPlayer.expanded {
+    border-bottom: 2px solid #5959de;
+    max-height: 100px; /* You can adjust this value based on your content */
+}
+        .song-titleMiniPlayer.expanded {
+            font-size: 8px;
+        }
+
+        .song-authorMiniPlayer.expanded {
+            font-size: 7px;
+        }
+                .song-itemMiniPlayer.expanded img {
+            width: 20px;
+              height: 20px;
+        }
+.dropdown {
+            max-width: 18%;
+            max-height: 0;
+            font-size: 0px;
+            flex: 1;
+            border: none;
+            border-radius: 30px;
+            background-color: #0f1318; /* Accent color for buttons */
+            color: #5959de;
+            text-align: center;
+            transition: background-color 0.3s;
+            top: 0px;
+            transition: max-height 0.3s ease-out;
+        }
+.dropimg {
+    max-height: 0;
+    transition: max-height 0.3s ease-out;
+
+}
+.dropimg.showdown {
+    max-height: 30;
+
+}
+.showdown {
+/*    border: 2px solid #5959de;*/
+    max-height: 55px; /* You can adjust this value based on your content */
+    font-size: 10px;
+}
 
 /* секции и их кнопки */
 
@@ -84,9 +173,10 @@
 
 .buttonsPlayer {
             display: flex;
-            gap: 10px;
+            gap: 5px;
 /*            border-bottom: 1px solid #5959de; */
-            margin: 0;
+            margin: 2px;
+            justify-content: space-between;
         }
 .buttonsSelectionContainer {
             display: flex;
@@ -97,22 +187,91 @@
 /* Кнопки фильтрации */
 .selectionButton {
             max-width: 25%;
+            max-height: 30px;
+            font-size: 10px;
             flex: 1;
             padding: 10px;
             border: none;
-            border-radius: 5px;
-            background-color: #0f1b18; /* Accent color for buttons */
+            border-radius: 15px;
+            background-color: #303030; /* Accent color for buttons */
             color: #5959de;
             cursor: pointer;
             transition: background-color 0.3s;
             top: 0px;
         }
+
 .selectionButton.activeSelect {
     background-color: #5959de; /* Цвет заливки для активной кнопки */
     color: #0f1318;
 /*    border-top: 6px solid #5959de;  */
 
 }
+/*Контейнер с музыкой*/
+.container-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin: 5px;
+            color: #5959de;
+        }
+.containerMus {
+    width: 100%;
+    max-height: 250px;
+    height:250px;
+    display: flex-start;
+    overflow: hidden;
+    border-radius: 15px;
+    border: 1px solid #444444;
+    background-color: #0f1318;
+    margin-top: 10px;
+}
+.containerMusNarrow {
+    width: 100%;
+    max-height: 180px;
+    height:180px;
+    display: flex-start;
+    overflow: hidden;
+    border-radius: 15px;
+    border: 1px solid #444444;
+    background-color: #0f1318;
+    margin-top: 10px;
+}
+
+.scrollable {
+    width: 100%;
+    display: flex;
+    overflow-x: scroll;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+}
+.scrollable::-webkit-scrollbar {
+    width: 0;
+}
+
+
+.column {
+    display: flex;
+    flex-direction: column;
+    scroll-snap-align: start;
+}
+.stroka {
+    display: flex;
+    flex-direction: between;
+    scroll-snap-align: start;
+}
+
+
+.element {
+    width: 200px; /* Adjust the width as needed */
+    height: 200px; /* Adjust the height as needed */
+    margin: 10px;
+    background-color: #f0f0f0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
 /* Контент */
 .playerThis {
     position: fixed;
@@ -127,7 +286,6 @@
     width: 100%;
     max-width: 380px;
     padding: 60px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: bottom 0.5s ease; /* Плавный переход */
 }
 /* панель с плеером */
@@ -139,12 +297,16 @@
     bottom: -5%; /* Конечная позиция, например, 10% от нижнего края экрана */
 }
 
+.playerThis:active {
+    cursor: grabbing; /* Show grabbing cursor when dragging */
+}
+
 
 .close {
     position: absolute;
     top: 10px;
-    right: 10px;
-    font-size: 20px;
+    left: 170px;
+    width: 30px;
     cursor: pointer;
 }
 
@@ -248,6 +410,7 @@
     cursor: pointer;
 }
 
+
 /* список песен */
  .song-list {
             list-style-type: none;
@@ -259,7 +422,7 @@
             display: flex;
             align-items: center;
             padding: 10px;
-
+            width: 350px;
         }
 
         .song-item img {
@@ -267,6 +430,31 @@
             height: 50px;
             border-radius: 4px;
             margin-right: 10px;
+        }
+
+        .songRadio-item {
+            display: start;
+            align-items: center;
+            padding: 10px;
+            width: 100px;
+            height: 135px;
+            border-radius: 5px;
+            margin: 5px;
+            box-shadow: 0 0 5px #5959de;
+        }
+
+        .songRadio-item img {
+            width: 80px;
+            height: 80px;
+            border-radius: 4px;
+            margin-right: 10px;
+        }
+        .songRadio-title {
+            justify-content: center;
+            font-size: 13px;
+            font-weight: bold;
+            margin: 0;
+            color: #5959de;
         }
 
         .song-info {
@@ -303,6 +491,10 @@
             margin: 2px 0;
         }
 
+.hidden {
+            display: none;
+        }
+
 /* Радио */
 
 .radio-group {
@@ -321,6 +513,49 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: bottom 0.5s ease; /* Плавный переход */
         }
+
+/* строка поиска */
+.buttonsSearch {
+            display: flex;
+            gap: 5px;
+            border-bottom: 1px solid #0b0e11;
+            margin: 2px;
+            background: #0b0e11;
+            justify-content: space-between;
+        }
+.buttonSearch {
+            padding: 10px 20px;
+            background-color: #303030;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            width: 17%;
+            cursor: pointer;
+            margin-right: 12px;
+            margin-top: 10px;
+            margin-left: 0;
+        }
+.search {
+            width: 87%;
+            margin-left: 12px;
+            margin-top: 10px;
+            margin-right: 0;
+            padding: 10px;
+            border-radius: 30px;
+            border: none;
+            outline: none;
+            background-color: #303030; /* Darker input background */
+            color: #FFFFFF;
+
+}
+/* user */
+.userInf {
+    flex-direction: row;
+    display: flex;
+    padding: 10px;
+    background: linear-gradient(to bottom, #5959de 50%, #000000 500%);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3), 0 4px 10px rgba(0, 0, 0, 0.2);
+}
 
 
 
